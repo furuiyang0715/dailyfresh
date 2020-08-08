@@ -18,8 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(r"^user/", include("user.urls")),
-    path(r"^order/", include("order.urls")),
-    path(r"^cart/", include("cart.urls")),
-    path(r"^goods/", include("goods.urls")),
+    path(r"^user/", include("user.urls", namespace='user')),    # 用户模块
+    path(r"^cart/", include("cart.urls", namespace='cart')),    # 购物车模块
+    path(r"^order/", include("order.urls", namespace='order')),  # 订单模块
+    path(r"^", include("goods.urls", namespace='goods')),        # 商品模块
 ]
