@@ -42,10 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 注册 my apps
-    'user',
-    'goods',
-    'cart',
-    'order',
+    'user',   # 用户模块
+    'goods',  # 商品模块
+    'cart',   # 购物车模块
+    'order',  # 订单模块
 ]
 
 MIDDLEWARE = [
@@ -62,13 +62,13 @@ ROOT_URLCONF = 'dailyfresh.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'BACKEND': 'django.templates.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, "templates"), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                'django.templates.context_processors.debug',
+                'django.templates.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
