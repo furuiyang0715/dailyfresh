@@ -15,6 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import sys
 
+from configs import TEST_MYSQL_DB, TEST_MYSQL_USER, TEST_MYSQL_PASSWORD, TEST_MYSQL_HOST, TEST_MYSQL_PORT
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 将 apps 添加到路径中
 sys.path.insert(0, os.path.join(BASE_DIR, "apps"))
@@ -84,10 +86,21 @@ WSGI_APPLICATION = 'dailyfresh.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': TEST_MYSQL_DB,
+        'USER': TEST_MYSQL_USER,
+        'PASSWORD': TEST_MYSQL_PASSWORD,
+        'HOST': TEST_MYSQL_HOST,
+        'PORT': TEST_MYSQL_PORT,
+
+        # 'OPTIONS': {
+        #     # 存储引擎启用严格模式，非法数据值被拒绝
+        #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        #     'charset': 'utf8mb4',
+        # },
     }
 }
+
 
 
 # Password validation
