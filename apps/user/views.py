@@ -10,6 +10,14 @@ def register(request):
 
 def register_handle(request):
     # 接收数据
+    print(request.POST)
+    user_name = request.POST.get("user_name")
+    password = request.POST.get("pwd")
+    email = request.POST.get("email")
+    # print(user_name)
+    # print(password)
+    # print(email)
+
 
     # 校验数据
 
