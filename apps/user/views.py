@@ -1,14 +1,24 @@
 import re
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views import View
 from user.models import User
 
 
-def register(request):
-    if request.method == "GET":
+class RegisterView(View):
+    """类视图"""
+    def get(self, request):
         return render(request, "register.html")
-    else:
+
+    def post(self, request):
         return register_handle(request)
+
+
+# def register(request):
+#     if request.method == "GET":
+#         return render(request, "register.html")
+#     else:
+#         return register_handle(request)
 
 
 def register_handle(request):
