@@ -156,4 +156,5 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
 
 # 不在使用系统的用户模型类 而是使用我们自己的用户模型类
+# 配置 django 认证系统使用的模型类 不再生成 auth_user 表
 AUTH_USER_MODEL = "user.User"
