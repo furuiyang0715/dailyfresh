@@ -10,17 +10,21 @@ def register(request):
 
 def register_handle(request):
     # 接收数据
-    # print(request.POST)
     user_name = request.POST.get("user_name")
     password = request.POST.get("pwd")
     email = request.POST.get("email")
-    # print(user_name)
-    # print(password)
-    # print(email)
 
     # 校验数据
     if not all([user_name, password, email]):
         return render(request, "register.html", {"errmsg": '数据不完整'})
+
+    # if user_name == 'aaa':
+    #     return render(request, "register.html", {"errmsg": 'Just for test'})
+
+    # 校验用户名是否重复
+    is_exist = User.objects.get(username=user_name)
+    if is_exist:
+        return render(request, "register.html", {"errmsg": '该用户名已存在'})
 
     if not re.match(r'^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$', email):
         return render(request, "register.html", {"errmsg": '邮箱格式不正确'})
