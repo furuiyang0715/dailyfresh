@@ -48,7 +48,16 @@ INSTALLED_APPS = [
     'goods',  # 商品模块
     'cart',   # 购物车模块
     'order',  # 订单模块
+    # 添加富文本编辑器组件
+    'tinymce',
 ]
+
+# 写入富文本编辑器的配置
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'width': 600,
+    'height': 400,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
