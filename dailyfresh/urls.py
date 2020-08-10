@@ -23,4 +23,7 @@ urlpatterns = [
     path(r"^cart/", include(("cart.urls", "cart"), namespace='cart')),    # 购物车模块
     path(r"^order/", include(("order.urls", "order"), namespace='order')),  # 订单模块
     path(r"^", include(("goods.urls", "goods"), namespace='goods')),        # 商品模块
+
+    # 配置富文本编辑器路径
+    path(r'^tinymce/', include(('tinymce.urls', 'tinymce'))),
 ]
