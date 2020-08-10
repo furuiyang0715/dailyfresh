@@ -1,9 +1,9 @@
 import re
 
-from django.http import HttpResponse
-from django.shortcuts import render
-
-# Create your views here.
+# from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from user.models import User
 
 
 def register(request):
@@ -31,8 +31,7 @@ def register_handle(request):
         return render(request, "register.html", {"errmsg": '请先同意用户协议'})
 
     # 进行业务逻辑处理
+    user = User.objects.create_user(user_name, email, password)
 
-    # 返回应答
-
-    #
-    return HttpResponse("注册成功")
+    # 注册成功 就跳转到首页
+    return redirect(reverse("goods:index"))
