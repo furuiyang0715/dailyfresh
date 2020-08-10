@@ -153,3 +153,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # 配置的静态文件的查找路径
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+
+
+# 不在使用系统的用户模型类 而是使用我们自己的用户模型类
+AUTH_USER_MODEL = "user.User"
