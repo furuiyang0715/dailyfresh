@@ -30,6 +30,10 @@ def register_handle(request):
 
     # 进行业务逻辑处理
     user = User.objects.create_user(user_name, email, password)
+    # 默认用户是激活的 在此修改新注册用户为未激活状态 后续需要通过邮箱、短信等激活
+    user.is_active = 0
+    # 作出更改时，要调用 save 将更改保存下来
+    user.save()
 
     # 注册成功 就跳转到首页
     return redirect(reverse("goods:index"))
