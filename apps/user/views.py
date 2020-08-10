@@ -5,7 +5,10 @@ from user.models import User
 
 
 def register(request):
-    return render(request, "register.html")
+    if request.method == "GET":
+        return render(request, "register.html")
+    else:
+        return register_handle(request)
 
 
 def register_handle(request):
