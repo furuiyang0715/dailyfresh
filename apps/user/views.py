@@ -1,6 +1,4 @@
 import re
-
-# from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from user.models import User
