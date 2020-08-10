@@ -22,7 +22,10 @@ def register_handle(request):
     #     return render(request, "register.html", {"errmsg": 'Just for test'})
 
     # 校验用户名是否重复
-    is_exist = User.objects.get(username=user_name)
+    try:
+        is_exist = User.objects.get(username=user_name)
+    except User.DoesNotExist:   # 在查询不到的时候抛出异常
+        is_exist = None
     if is_exist:
         return render(request, "register.html", {"errmsg": '该用户名已存在'})
 
