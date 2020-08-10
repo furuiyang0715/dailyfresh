@@ -19,10 +19,11 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     # 在新版本的 django 中需要设置 app_name
-    path(r"^user/", include(("user.urls", "user"), namespace='user')),    # 用户模块
-    path(r"^cart/", include(("cart.urls", "cart"), namespace='cart')),    # 购物车模块
-    path(r"^order/", include(("order.urls", "order"), namespace='order')),  # 订单模块
-    path(r"^", include(("goods.urls", "goods"), namespace='goods')),        # 商品模块
+    # path("booktest/", include(('booktest.urls', "booktest"),  namespace='booktest')),
+    path(r"user/", include(("user.urls", "user"), namespace='user')),    # 用户模块
+    path(r"cart/", include(("cart.urls", "cart"), namespace='cart')),    # 购物车模块
+    path(r"order/", include(("order.urls", "order"), namespace='order')),  # 订单模块
+    path(r"", include(("goods.urls", "goods"), namespace='goods')),        # 商品模块
 
     # 配置富文本编辑器路径
     path(r'^tinymce/', include(('tinymce.urls', 'tinymce'))),
