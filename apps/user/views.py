@@ -113,11 +113,11 @@ class LoginView(View):
         # 判断用户是否勾选了记住用户名
         if "username" in request.COOKIES:
             user_name = request.COOKIES.get("username")
-            checked = 'checked'
         else:
             user_name = ''
-            checked = ''
-        return render(request, "login.html", {"username": user_name, 'checked': checked})
+        return render(request, "login.html", {"username": user_name,
+                                              # 'checked': checked,
+                                              })
 
     def post(self, request):
         user_name = request.POST.get("username")
@@ -159,7 +159,10 @@ class LoginView(View):
 
         # 判断是否需要记住用户名
         is_remembered = request.POST.get("remember")
-        if is_remembered == 'on':
+        print("####### ", is_remembered)
+
+        if is_remembered:
+            print("设置 cookie ")
             response.set_cookie("username", user.username, max_age=7*24*3600)
         else:
             response.delete_cookie('username')
