@@ -181,3 +181,18 @@ def my_send_mail(msg, user_email):
               [user_email],
               html_message=msg
               )
+
+
+class InfoView(View):
+    def get(self, request):
+        return render(request, 'user_center_info.html')
+
+
+class OrderView(View):
+    def get(self, request):
+        return render(request, 'user_center_order.html')
+
+
+class SiteView(View):
+    def get(self, request):
+        return render(request, 'user_center_site.html')
