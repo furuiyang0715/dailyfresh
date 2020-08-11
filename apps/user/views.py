@@ -110,3 +110,9 @@ class ActiveView(View):
             user.save()
             # 跳转到登录页面
             return redirect(reverse("user:login"))
+
+
+class LoginView(View):
+    """用户登录视图"""
+    def get(self, request):
+        return render(request, "login.html")
