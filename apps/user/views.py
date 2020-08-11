@@ -138,6 +138,8 @@ class LoginView(View):
             return render(request, 'login.html', {"errmsg": "用户尚未激活"})
 
         # 跳转到主页
+        # 记录用户的登录状态
+
         return render(request, 'index.html')
 
 

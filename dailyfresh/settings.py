@@ -178,3 +178,14 @@ EMAIL_FROM = 'mydailyfresh<15626046299@163.com>'    # 尖括号内的邮箱必�
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = 'redis://127.0.0.1:6379/2'
+
+# session 的配置
+# （1） 存储在数据库中 属于默认的存储方式
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+# （2） 存储在 内存中
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+# （3）混合存储 先从内存中获取 不存在则从数据库中获取
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+
+
+
