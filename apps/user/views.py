@@ -114,7 +114,19 @@ class LoginView(View):
     def post(self, request):
         user_name = request.POST.get("username")
         pass_word = request.POST.get("pwd")
-        return HttpResponse("{} - {}".format(user_name, pass_word))
+
+        try:
+            user = User.objects.get(username=user_name)
+        except:
+            user = None
+
+        if not user:
+            return render(request, 'login.html', {"errmsg": "用户不存在, 请先注册"})
+        elif not user.is_active:
+            return render(request, 'login.html', {"errmsg": "用户尚未激活"})
+
+        # 跳转到主页
+        return render(request, 'index.html')
 
 
 def my_send_mail(msg, user_email):
