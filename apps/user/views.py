@@ -77,8 +77,8 @@ def register_handle(request):
     # 使用 djcelery 的启动:  python manage.py celery worker --loglevel=info
     # 调用示例: tasks.my_send_mail.delay()
 
-    # my_send_mail(active_link, user.email)
-    tasks.my_send_mail.delay(active_link, user.email)
+    # my_send_mail(active_link, user.email)   # 使用同步发送
+    tasks.my_send_mail.delay(active_link, user.email)   # 使用 djcelery 的配置
 
     return HttpResponse("注册成功 请到邮箱激活登录")
 
