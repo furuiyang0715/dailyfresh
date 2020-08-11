@@ -87,7 +87,8 @@ def register_handle(request):
     # send_mail(active_link)
     my_send_mail(active_link, user.email)
     # 注册成功 就跳转到首页
-    return redirect(reverse("goods:index"))
+    # return redirect(reverse("goods:index"))
+    return HttpResponse("注册成功 请到邮箱激活登录")
 
 
 class ActiveView(View):
