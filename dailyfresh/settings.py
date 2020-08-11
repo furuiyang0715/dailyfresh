@@ -181,7 +181,7 @@ BROKER_URL = 'redis://127.0.0.1:6379/2'
 
 # session 的配置
 # （1） 存储在数据库中 属于默认的存储方式
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # （2） 存储在 内存中
 # SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 # （3）混合存储 先从内存中获取 不存在则从数据库中获取
@@ -202,7 +202,10 @@ CACHES = {
         "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PASSWORD": "mysecret"
+            # "PASSWORD": "mysecret"
         }
     }
 }
+# session 是存储在缓存中 缓存是基于 redis 存储
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
