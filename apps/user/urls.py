@@ -13,10 +13,9 @@ urlpatterns = [
 
     url(r"^login/$", LoginView.as_view(), name='login'),    # 用户登录
 
-    url(r"^info/$", UserInfoView.as_view(), name='login'),    # info
-    url(r"^order/$", UserOrderView.as_view(), name='login'),    # order
-    url(r"^site/$", AddressView.as_view(), name='login'),    # site
-
+    url(r"^$", UserInfoView.as_view(), name='info'),    # info
+    url(r"^order/$", UserOrderView.as_view(), name='order'),    # order
+    url(r"^site/$", AddressView.as_view(), name='site'),    # site
 
 
 ]
