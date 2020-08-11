@@ -1,10 +1,12 @@
 import re
+import traceback
 
 from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired
 from user.models import User
 
 # from dailyfresh import settings
@@ -74,10 +76,37 @@ def register_handle(request):
     ser = Serializer(settings.SECRET_KEY, 3600)  # 参数分别是秘钥以及以秒为单位的过期时间
     # 对用户信息进行加密
     user_info = {"confirm": user.id}
-    ret = ser.dumps(user_info)
+    ret = ser.dumps(user_info)   # bytes类型的
+    token = ret.decode("utf-8")  # 进一步编码
     # 拼接激活链接
-    active_link = "http://127.0.0.1:8000/user/active?token={}".format(ret)
-    # 异步发送激活邮件
+    active_link = "http://127.0.0.1:8000/user/active?token={}".format(token)
+    # TODO  异步发送激活邮件
+    # http://127.0.0.1:8000/user/active?token=eyJhbGciOiJIUzUxMiIsImlhdCI6MTU5NzExMTUzNCwiZXhwIjoxNTk3MTE1MTM0fQ.eyJjb25maXJtIjoyMX0.P0-e0pRBZYlFBmMhOvJdzDTQgzyVitg7RwP3BagU7ssXPfE_bSY-vNUGJIU6iCQLixHyZyP2ZA15FkxGB-m0Fg
+    print(active_link)
     # send_mail(active_link)
+
     # 注册成功 就跳转到首页
     return redirect(reverse("goods:index"))
+
+
+class ActiveView(View):
+    """用户激活视图"""
+    def get(self, request):
+        token = request.GET.get("token")    # 这里我没有拼接 url 而是将 token 作为参数进行传递
+        token = token.encode("utf-8")
+        ser = Serializer(settings.SECRET_KEY, 3600)
+        try:
+            user_info = ser.loads(token)
+        except SignatureExpired:
+            return HttpResponse("激活链接已超时")
+        except:
+            err_msg = traceback.format_exc()
+            return HttpResponse("激活失效: {}".format(err_msg))
+        else:
+            # 激活成功
+            user_id = user_info.get("confirm")
+            user = User.objects.get(id=user_id)
+            user.is_active = 1
+            user.save()
+            # 跳转到登录页面
+            return redirect(reverse("user:login"))
