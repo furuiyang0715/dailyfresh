@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.views import View
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired
 from user.models import User
+from user import tasks
 
 
 class RegisterView(View):
@@ -75,7 +76,9 @@ def register_handle(request):
     # 我们应该将这个任务放到后台去异步执行
     # 使用 djcelery 的启动:  python manage.py celery worker --loglevel=info
     # 调用示例: tasks.my_send_mail.delay()
-    my_send_mail(active_link, user.email)
+
+    # my_send_mail(active_link, user.email)
+    tasks.my_send_mail.delay(active_link, user.email)
 
     return HttpResponse("注册成功 请到邮箱激活登录")
 
@@ -109,7 +112,6 @@ class LoginView(View):
         return render(request, "login.html")
 
 
-# @task
 def my_send_mail(msg, user_email):
     '''
     msg: 需要发送的信息
