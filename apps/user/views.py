@@ -10,8 +10,6 @@ from django.views import View
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired
 from user.models import User
 
-# from dailyfresh import settings
-
 
 class RegisterView(View):
     """类视图"""
@@ -20,13 +18,6 @@ class RegisterView(View):
 
     def post(self, request):
         return register_handle(request)
-
-
-# def register(request):
-#     if request.method == "GET":
-#         return render(request, "register.html")
-#     else:
-#         return register_handle(request)
 
 
 def register_handle(request):
@@ -38,9 +29,6 @@ def register_handle(request):
     # 校验数据
     if not all([user_name, password, email]):
         return render(request, "register.html", {"errmsg": '数据不完整'})
-
-    # if user_name == 'aaa':
-    #     return render(request, "register.html", {"errmsg": 'Just for test'})
 
     # 校验用户名是否重复
     try:
@@ -81,13 +69,14 @@ def register_handle(request):
     token = ret.decode("utf-8")  # 进一步编码
     # 拼接激活链接
     active_link = "http://127.0.0.1:8000/user/active?token={}".format(token)
-    # TODO  异步发送激活邮件
-    # http://127.0.0.1:8000/user/active?token=eyJhbGciOiJIUzUxMiIsImlhdCI6MTU5NzExMTUzNCwiZXhwIjoxNTk3MTE1MTM0fQ.eyJjb25maXJtIjoyMX0.P0-e0pRBZYlFBmMhOvJdzDTQgzyVitg7RwP3BagU7ssXPfE_bSY-vNUGJIU6iCQLixHyZyP2ZA15FkxGB-m0Fg
-    print(active_link)
-    # send_mail(active_link)
+    # 这一步骤是将信息发送给 smtp 服务器 然后再由其转发给用户邮箱
+    # 若直接同步发送 会造成用户页面阻塞 用户体验不佳
+
+    # 我们应该将这个任务放到后台去异步执行
+    # 使用 djcelery 的启动:  python manage.py celery worker --loglevel=info
+    # 调用示例: tasks.my_send_mail.delay()
     my_send_mail(active_link, user.email)
-    # 注册成功 就跳转到首页
-    # return redirect(reverse("goods:index"))
+
     return HttpResponse("注册成功 请到邮箱激活登录")
 
 
@@ -120,7 +109,7 @@ class LoginView(View):
         return render(request, "login.html")
 
 
-# 定义一个同步发送邮件的函数
+# @task
 def my_send_mail(msg, user_email):
     '''
     msg: 需要发送的信息
