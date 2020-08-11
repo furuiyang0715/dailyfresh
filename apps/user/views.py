@@ -110,7 +110,14 @@ class ActiveView(View):
 class LoginView(View):
     """用户登录视图"""
     def get(self, request):
-        return render(request, "login.html")
+        # 判断用户是否勾选了记住用户名
+        if "username" in request.COOKIES:
+            user_name = request.COOKIES.get("username")
+            checked = 'checked'
+        else:
+            user_name = ''
+            checked = ''
+        return render(request, "login.html", {"username": user_name, 'checked': checked})
 
     def post(self, request):
         user_name = request.POST.get("username")
@@ -147,7 +154,17 @@ class LoginView(View):
 
         # 使用封装好的方法
         login(request, user)
-        return render(request, 'index.html')
+
+        response = redirect(reverse("goods:index"))
+
+        # 判断是否需要记住用户名
+        is_remembered = request.POST.get("remember")
+        if is_remembered == 'on':
+            response.set_cookie("username", user.username, max_age=7*24*3600)
+        else:
+            response.delete_cookie('username')
+
+        return response
 
 
 def my_send_mail(msg, user_email):
