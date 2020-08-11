@@ -138,10 +138,15 @@ class LoginView(View):
             return render(request, 'login.html', {"errmsg": "用户尚未激活"})
 
         # 跳转到主页
-        # 记录用户的登录状态
-        request.session['is_login'] = 1
+
+        # 记录用户的登录状态 手动的
+        # request.session['is_login'] = 1
+
+        # 使用 django_redis
+        # 安装:pip install django-redis
+
         # 使用封装好的方法
-        # login(request, user)
+        login(request, user)
         return render(request, 'index.html')
 
 
