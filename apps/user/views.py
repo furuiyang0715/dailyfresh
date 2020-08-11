@@ -139,7 +139,7 @@ class LoginView(View):
 
         # 跳转到主页
         # 记录用户的登录状态
-
+        request.session['is_login'] = 1
         return render(request, 'index.html')
 
 

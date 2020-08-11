@@ -186,6 +186,13 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 # （3）混合存储 先从内存中获取 不存在则从数据库中获取
 # SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+'''
+依赖于Cookie
+所有请求者的Session都会存储在服务器中，服务器如何区分请求者和Session数据的对应关系呢？
+答：在使用Session后，会在Cookie中存储一个sessionid的数据，每次请求时浏览器都会将这个数据发给服务器，服务器在接收到sessionid后，会根据这个值找出这个请求者的Session。
+结果：如果想使用Session，浏览器必须支持Cookie，否则就无法使用Session了。
+存储Session时，键与Cookie中的sessionid相同，值是开发人员设置的键值对信息，进行了base64编码，过期时间由开发人员设置。 
+'''
 
 
 
