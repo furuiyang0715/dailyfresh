@@ -2,6 +2,7 @@ import re
 import traceback
 
 from django.conf import settings
+from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -119,11 +120,16 @@ class LoginView(View):
         # 这一步前端以及后端都需要进行处理
         if not all([user_name, pass_word]):
             return render(request, 'login.html', {"errmsg": "数据不完整"})
-        # 手动去查询用户是否存在
-        try:
-            user = User.objects.get(username=user_name, password=pass_word)
-        except:
-            user = None
+
+        # # 手动去查询用户是否存在
+        # 这样不成功的原因是 数据库中的密码 在入库时 已经经过了加密处理
+        # try:
+        #     user = User.objects.get(username=user_name, password=pass_word)
+        # except:
+        #     user = None
+
+        # 在其中已经完成了将密码进行加密后的比较
+        user = authenticate(username=user_name, password=pass_word)
 
         # 检验密码是否正确
         if not user:
