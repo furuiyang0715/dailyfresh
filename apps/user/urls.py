@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 # from apps.user import views
-from apps.user.views import RegisterView, ActiveView, LoginView, InfoView, OrderView, SiteView
+from apps.user.views import RegisterView, ActiveView, LoginView, UserInfoView, UserOrderView, AddressView
 
 urlpatterns = [
     url(r"^register/$", RegisterView.as_view(), name='register'),    # 将注册改为类视图的使用模式
@@ -13,9 +13,9 @@ urlpatterns = [
 
     url(r"^login/$", LoginView.as_view(), name='login'),    # 用户登录
 
-    url(r"^info/$", InfoView.as_view(), name='login'),    # info
-    url(r"^order/$", OrderView.as_view(), name='login'),    # order
-    url(r"^site/$", SiteView.as_view(), name='login'),    # site
+    url(r"^info/$", UserInfoView.as_view(), name='login'),    # info
+    url(r"^order/$", UserOrderView.as_view(), name='login'),    # order
+    url(r"^site/$", AddressView.as_view(), name='login'),    # site
 
 
 
