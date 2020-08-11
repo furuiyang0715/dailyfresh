@@ -9,3 +9,7 @@ print(en_info)
 # 解密
 de_info = ser.loads(en_info)
 print(de_info)
+
+
+# from django.conf import settings
+# print(settings)

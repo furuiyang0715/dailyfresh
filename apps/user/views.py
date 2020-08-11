@@ -1,9 +1,13 @@
 import re
+
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from user.models import User
+
+# from dailyfresh import settings
 
 
 class RegisterView(View):
@@ -66,9 +70,14 @@ def register_handle(request):
     # 安装 pip install itsdangerous
     # 进行导包并进行别名： from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
     # 该类除了加密以及解密 还可以设置加密的过期时间
-
-
-
-
+    # 创建加密对象
+    ser = Serializer(settings.SECRET_KEY, 3600)  # 参数分别是秘钥以及以秒为单位的过期时间
+    # 对用户信息进行加密
+    user_info = {"confirm": user.id}
+    ret = ser.dumps(user_info)
+    # 拼接激活链接
+    active_link = "http://127.0.0.1:8000/user/active?token={}".format(ret)
+    # 异步发送激活邮件
+    # send_mail(active_link)
     # 注册成功 就跳转到首页
     return redirect(reverse("goods:index"))
