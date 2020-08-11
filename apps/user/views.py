@@ -111,6 +111,11 @@ class LoginView(View):
     def get(self, request):
         return render(request, "login.html")
 
+    def post(self, request):
+        user_name = request.POST.get("username")
+        pass_word = request.POST.get("pwd")
+        return HttpResponse("{} - {}".format(user_name, pass_word))
+
 
 def my_send_mail(msg, user_email):
     '''
