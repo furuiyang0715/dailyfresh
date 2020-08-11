@@ -115,13 +115,19 @@ class LoginView(View):
         user_name = request.POST.get("username")
         pass_word = request.POST.get("pwd")
 
+        # 校验数据的完整性
+        # 这一步前端以及后端都需要进行处理
+        if not all([user_name, pass_word]):
+            return render(request, 'login.html', {"errmsg": "数据不完整"})
+        # 手动去查询用户是否存在
         try:
-            user = User.objects.get(username=user_name)
+            user = User.objects.get(username=user_name, password=pass_word)
         except:
             user = None
 
+        # 检验密码是否正确
         if not user:
-            return render(request, 'login.html', {"errmsg": "用户不存在, 请先注册"})
+            return render(request, 'login.html', {"errmsg": "用户不存在或者密码错误"})
         elif not user.is_active:
             return render(request, 'login.html', {"errmsg": "用户尚未激活"})
 
