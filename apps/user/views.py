@@ -2,6 +2,7 @@ import re
 import traceback
 
 from django.conf import settings
+from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -84,7 +85,7 @@ def register_handle(request):
     # http://127.0.0.1:8000/user/active?token=eyJhbGciOiJIUzUxMiIsImlhdCI6MTU5NzExMTUzNCwiZXhwIjoxNTk3MTE1MTM0fQ.eyJjb25maXJtIjoyMX0.P0-e0pRBZYlFBmMhOvJdzDTQgzyVitg7RwP3BagU7ssXPfE_bSY-vNUGJIU6iCQLixHyZyP2ZA15FkxGB-m0Fg
     print(active_link)
     # send_mail(active_link)
-
+    my_send_mail(active_link, user.email)
     # 注册成功 就跳转到首页
     return redirect(reverse("goods:index"))
 
@@ -116,3 +117,17 @@ class LoginView(View):
     """用户登录视图"""
     def get(self, request):
         return render(request, "login.html")
+
+
+# 定义一个同步发送邮件的函数
+def my_send_mail(msg, user_email):
+    '''
+    msg: 需要发送的信息
+    user_email: 用户填写的接收激活信息的邮箱
+    '''
+    send_mail("dailyfrsh 用户注册",
+              '',
+              settings.EMAIL_FROM,
+              [user_email],
+              html_message=msg
+              )

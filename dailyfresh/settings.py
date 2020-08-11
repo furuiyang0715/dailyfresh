@@ -170,4 +170,4 @@ EMAIL_HOST_USER = '15626046299@163.com'
 # 在邮箱中设置的客户端授权密码
 EMAIL_HOST_PASSWORD = configs.EMAIL_HOST_PASSWORD
 # 收件人看到的发件人
-EMAIL_FROM = '15626046299@163.com'
+EMAIL_FROM = 'mydailyfresh<15626046299@163.com>'    # 尖括号内的邮箱必须和上面的邮箱地址一致 否则发送不出去
