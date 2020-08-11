@@ -15,6 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import sys
 
+import configs
 from configs import TEST_MYSQL_DB, TEST_MYSQL_USER, TEST_MYSQL_PASSWORD, TEST_MYSQL_HOST, TEST_MYSQL_PORT
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -158,3 +159,15 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 # 不在使用系统的用户模型类 而是使用我们自己的用户模型类
 # 配置 django 认证系统使用的模型类 不再生成 auth_user 表
 AUTH_USER_MODEL = "user.User"
+
+# 发送邮件的配置
+# 邮件服务后端
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 25
+# 发送邮件的邮箱
+EMAIL_HOST_USER = '15626046299@163.com'
+# 在邮箱中设置的客户端授权密码
+EMAIL_HOST_PASSWORD = configs.EMAIL_HOST_PASSWORD
+# 收件人看到的发件人
+EMAIL_FROM = '15626046299@163.com'

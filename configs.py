@@ -13,6 +13,7 @@ TEST_MYSQL_PORT = int(env.get("TEST_MYSQL_PORT", cf.get('test', 'TEST_MYSQL_PORT
 TEST_MYSQL_USER = env.get("TEST_MYSQL_USER", cf.get('test', 'TEST_MYSQL_USER'))
 TEST_MYSQL_PASSWORD = env.get("TEST_MYSQL_PASSWORD", cf.get('test', 'TEST_MYSQL_PASSWORD'))
 TEST_MYSQL_DB = env.get("TEST_MYSQL_DB", cf.get('test', 'TEST_MYSQL_DB'))
+EMAIL_HOST_PASSWORD = env.get("EMAIL_HOST_PASSWORD", cf.get('test', 'EMAIL_HOST_PASSWORD'))
 
 
 if __name__ == "__main__":
