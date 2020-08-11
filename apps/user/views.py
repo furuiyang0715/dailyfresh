@@ -2,6 +2,7 @@ import re
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from user.models import User
 
 
@@ -54,6 +55,20 @@ def register_handle(request):
     user.is_active = 0
     # 作出更改时，要调用 save 将更改保存下来
     user.save()
+
+    # 发送激活邮件 邮件中含有激活链接。
+    # 用户去请求激活链接 激活链接中含有用户的相关信息。
+    # 用户去点击了激活邮件，将对应的用户激活。
+
+    # 初步的想法是: 创建一个包含对应用户信息的 url 比如说 /user/active/1 这个 1 表示 user_id
+    # 但是如果过于简单，会遭到攻击，盲猜数据对我们的服务器进行访问
+    # 所以我们要对用户的身份信息进行加密
+    # 安装 pip install itsdangerous
+    # 进行导包并进行别名： from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+    # 该类除了加密以及解密 还可以设置加密的过期时间
+
+
+
 
     # 注册成功 就跳转到首页
     return redirect(reverse("goods:index"))
