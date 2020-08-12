@@ -3,6 +3,7 @@ import traceback
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -182,6 +183,9 @@ def my_send_mail(msg, user_email):
               html_message=msg
               )
 
+
+# https://docs.djangoproject.com/zh-hans/3.0/topics/auth/default/#django.contrib.auth.decorators.login_required
+# 使用 login_required 装饰器 视图函数可用
 
 class UserInfoView(View):
     def get(self, request):

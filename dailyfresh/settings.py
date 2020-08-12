@@ -209,3 +209,7 @@ CACHES = {
 # session 是存储在缓存中 缓存是基于 redis 存储
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
+
+
+# 未登录的默认跳转地址
+LOGIN_URL = '/user/login/'
