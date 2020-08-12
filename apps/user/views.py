@@ -188,6 +188,9 @@ def my_send_mail(msg, user_email):
 
 class UserInfoView(LoginRequiredMixin, View):
     def get(self, request):
+        # 除了我们传递过去的模板文件之外 django 会将 request.user 也传递过去。
+        # request.user 属性是 django 框架拦截请求为其增加的一个属性 无用户信息时该属性为匿名
+        # request.user.is_authenticated()   判断用户是否已经登录
         return render(request, 'user_center_info.html', {"page": 'user'})
 
 
