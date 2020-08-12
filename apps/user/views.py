@@ -13,6 +13,8 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, Signatur
 from user.models import User
 from user import tasks
 
+from utils.mixin import LoginRequiredMixin
+
 
 class RegisterView(View):
     """类视图"""
@@ -184,16 +186,17 @@ def my_send_mail(msg, user_email):
 # https://docs.djangoproject.com/zh-hans/3.0/topics/auth/default/#django.contrib.auth.decorators.login_required
 # 使用 login_required 装饰器 视图函数可用
 
-class UserInfoView(View):
+class UserInfoView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'user_center_info.html', {"page": 'user'})
 
 
-class UserOrderView(View):
+class UserOrderView(LoginRequiredMixin, View):
+# class UserOrderView(View):
     def get(self, request):
         return render(request, 'user_center_order.html', {'page': 'order'})
 
 
-class AddressView(View):
+class AddressView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'user_center_site.html', {"page": "site"})

@@ -3,6 +3,7 @@ from django.utils.decorators import classonlymethod
 
 
 class LoginRequiredMixin(object):
+    # 这个类应该位于继承表中最左侧
 
     @classonlymethod
     def as_view(cls, **initkwargs):
