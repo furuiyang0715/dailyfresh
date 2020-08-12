@@ -156,14 +156,11 @@ class LoginView(View):
         # 使用封装好的方法
         login(request, user)
 
-        response = redirect(reverse("goods:index"))
+        next_url = request.GET.get("next", reverse("goods:index"))
+        response = redirect(next_url)
 
-        # 判断是否需要记住用户名
         is_remembered = request.POST.get("remember")
-        print("####### ", is_remembered)
-
         if is_remembered:
-            print("设置 cookie ")
             response.set_cookie("username", user.username, max_age=7*24*3600)
         else:
             response.delete_cookie('username')
