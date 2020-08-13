@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired
-from user.models import User
+from user.models import User, Address
 from user import tasks
 
 from utils.mixin import LoginRequiredMixin
@@ -200,15 +200,48 @@ class UserInfoView(LoginRequiredMixin, View):
         # 除了我们传递过去的模板文件之外 django 会将 request.user 也传递过去。
         # request.user 属性是 django 框架拦截请求为其增加的一个属性 无用户信息时该属性为匿名
         # request.user.is_authenticated()   判断用户是否已经登录
+
+        # 在这个页面中需要:(1) 获取用户的个人信息
+        # (2) 获取用户的历史浏览记录
+
         return render(request, 'user_center_info.html', {"page": 'user'})
 
 
 class UserOrderView(LoginRequiredMixin, View):
 # class UserOrderView(View):
     def get(self, request):
+        # 获取用户的订单信息
         return render(request, 'user_center_order.html', {'page': 'order'})
 
 
 class AddressView(LoginRequiredMixin, View):
     def get(self, request):
+        # 获取用户的默认地址
         return render(request, 'user_center_site.html', {"page": "site"})
+
+    def post(self, request):
+        '''
+        user = models.ForeignKey('User', verbose_name='所属账户', on_delete=PROTECT)   # 在新版中需要加入 on_delete 参数
+        receiver = models.CharField(max_length=20, verbose_name='收件人')
+        addr = models.CharField(max_length=256, verbose_name='收件地址')
+        zip_code = models.CharField(max_length=6, null=True, verbose_name='邮政编码')
+        phone = models.CharField(max_length=11, verbose_name='联系电话')
+        is_default = models.BooleanField(default=False, verbose_name='是否默认')  # 表明该地址是否是用户的默认地址
+
+        '''
+        receiver = request.POST.get("receiver")
+        zip_code = request.POST.get("zip_code")
+        phone = request.POST.get("phone")
+        addr = request.POST.get("addr")
+
+        address = Address()
+        address.user = request.user   # 地址所属用户是当前登录用户
+        address.receiver = receiver
+        address.zip_code = zip_code
+        address.phone = phone
+        address.addr = addr
+        address.is_default = 0
+        address.save()
+
+        test_str = "{} - {} - {} - {}".format(receiver, zip_code, phone, addr)
+        return HttpResponse(test_str)
