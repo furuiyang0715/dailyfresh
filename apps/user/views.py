@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
+from django_redis import get_redis_connection
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired
 from user.models import User, Address
 from user import tasks
@@ -205,9 +206,20 @@ class UserInfoView(LoginRequiredMixin, View):
         # (2) 获取用户的历史浏览记录
         '''
         在访问商品的详情页面时，需要去添加历史浏览记录；需要在商品详情对应的视图中去添加
+        在访问个人中心时，拿到最近的浏览记录。
+        使用内存型的 redis 数据库来存放最近的浏览记录。
 
 
         '''
+        # 以比较原始的方式窗创建一个 redis 连接
+        # import redis
+        # redis_cli = redis.StrictRedis(host="127.0.0.1", port=6379, db=1)
+
+        # 以 django_redis 的方式创建 redis 连接
+        redis_cli = get_redis_connection("default")
+        print(redis_cli)
+
+
 
         default_addr = Address.objects.get_default_address(request.user)
         return render(request, 'user_center_info.html', {"page": 'user', 'addr': default_addr})
