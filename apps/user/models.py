@@ -15,7 +15,16 @@ class User(AbstractUser, BaseModel):
 
 class AddressManager(models.manager):
     """自定义的一个模型管理器对象"""
-    pass
+    def get_default_address(self, user):
+        """获取用户的默认地址"""
+        # 使用 self.model 获取当前模型管理器的模型类
+        try:
+            default_addr = self.get(user=user, is_default=True)
+            # default_addr = self.model.objects.get(user=user, is_default=True)
+            # default_addr = Address.objects.get(user=user, is_default=True)
+        except self.model.DoesNotExist:
+            default_addr = None
+        return default_addr
 
 
 class Address(BaseModel):

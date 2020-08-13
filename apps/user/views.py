@@ -217,10 +217,11 @@ class UserOrderView(LoginRequiredMixin, View):
 class AddressView(LoginRequiredMixin, View):
     def get(self, request):
         # 获取用户的默认地址
-        try:
-            default_addr = Address.objects.get(user=request.user, is_default=1)
-        except Address.DoesNotExist:
-            default_addr = None
+        # try:
+        #     default_addr = Address.objects.get(user=request.user, is_default=1)
+        # except Address.DoesNotExist:
+        #     default_addr = None
+        default_addr = Address.objects.get_default_address(request.user)
 
         if not default_addr:
             return render(request, 'user_center_site.html', {"page": "site"})
@@ -254,11 +255,12 @@ class AddressView(LoginRequiredMixin, View):
         # 获取登录用户
         user = request.user
         # 查询出当前的默认地址
-        try:
-            default_addr = Address.objects.get(user=user, is_default=True)
-        except Address.DoesNotExist:
-            # 不存在默认的收货地址
-            default_addr = None
+        # try:
+        #     default_addr = Address.objects.get(user=user, is_default=True)
+        # except Address.DoesNotExist:
+        #     # 不存在默认的收货地址
+        #     default_addr = None
+        default_addr = Address.objects.get_default_address(user)
 
         if default_addr:
             is_default = False
