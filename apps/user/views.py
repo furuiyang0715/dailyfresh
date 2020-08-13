@@ -13,6 +13,7 @@ from django_redis import get_redis_connection
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired
 from user.models import User, Address
 from user import tasks
+from goods.models import GoodsSKU
 
 from utils.mixin import LoginRequiredMixin
 
@@ -211,18 +212,32 @@ class UserInfoView(LoginRequiredMixin, View):
 
 
         '''
+        user = request.user
         # 以比较原始的方式窗创建一个 redis 连接
         # import redis
         # redis_cli = redis.StrictRedis(host="127.0.0.1", port=6379, db=1)
 
         # 以 django_redis 的方式创建 redis 连接
-        redis_cli = get_redis_connection("default")
+        redis_cli = get_redis_connection("default")   # 获取 settings 中 key 为 default 的配置
         print(redis_cli)
+        history_key = "history_{}".format(user.id)
+        # 拿到最近 5 条浏览记录
+        sku_ids = redis_cli.lrange(history_key, 0, 4)
+        # 从数据库中查询出用户浏览的商品的具体信息
+        goods_lst = GoodsSKU.objects.filter(id__in=sku_ids)
+        # 将 goods_lst 按照 sku_ids 的顺序进行排列
+        # 我的想法是先将 goods_lst 转换为一个映射集:
+        # id --> good 对象
+        id_good_map = {good.id: good for good in goods_lst}
+        # 排序之后的商品集
+        sorted_goods = [id_good_map.get(gid) for gid in sku_ids]
 
-
-
-        default_addr = Address.objects.get_default_address(request.user)
-        return render(request, 'user_center_info.html', {"page": 'user', 'addr': default_addr})
+        default_addr = Address.objects.get_default_address(user)
+        return render(request, 'user_center_info.html',
+                      {"page": 'user',
+                       'addr': default_addr,
+                       'goods_li': sorted_goods,
+                       })
 
 
 class UserOrderView(LoginRequiredMixin, View):
