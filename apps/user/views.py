@@ -217,7 +217,16 @@ class UserOrderView(LoginRequiredMixin, View):
 class AddressView(LoginRequiredMixin, View):
     def get(self, request):
         # 获取用户的默认地址
-        return render(request, 'user_center_site.html', {"page": "site"})
+        try:
+            default_addr = Address.objects.get(user=request.user, is_default=1)
+        except:
+            default_addr = None
+
+        if not default_addr:
+            print("用户不存在")
+            return render(request, 'user_center_site.html', {"page": "site"})
+        else:
+            return render(request, 'user_center_site.html', {"page": "site", "default_addr": default_addr})
 
     def post(self, request):
         '''
@@ -242,14 +251,39 @@ class AddressView(LoginRequiredMixin, View):
         if not re.match("^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$", phone):
             return render(request, 'user_center_site.html', {"errmsg": "手机号码格式不正确"})
 
-        address = Address()
-        address.user = request.user   # 地址所属用户是当前登录用户
-        address.receiver = receiver
-        address.zip_code = zip_code
-        address.phone = phone
-        address.addr = addr
-        address.is_default = 0
-        address.save()
+        # 获取登录用户
+        user = request.user
+        # 查询出当前的默认地址
+        try:
+            default_addr = Address.objects.get(user=user, is_default=True)
+        except Address.DoesNotExist:
+            # 不存在默认的收货地址
+            default_addr = None
 
-        test_str = "{} - {} - {} - {}".format(receiver, zip_code, phone, addr)
-        return HttpResponse(test_str)
+        if default_addr:
+            is_default = False
+        else:
+            is_default = True
+
+        # （1） 手动创建
+        # address = Address()
+        # address.user = request.user   # 地址所属用户是当前登录用户
+        # address.receiver = receiver
+        # address.zip_code = zip_code
+        # address.phone = phone
+        # address.addr = addr
+        # address.is_default = is_default
+        # address.save()
+
+        # （2）调用模型的 create 方法
+        address = Address.objects.create(
+            user=user,
+            receiver=receiver,
+            zip_code=zip_code,
+            phone=phone,
+            addr=addr,
+            is_default=is_default,
+        )
+
+        # 返回应答：刷新一下地址页面 将设置的默认地址加上去
+        return redirect(reverse("user:site"))
