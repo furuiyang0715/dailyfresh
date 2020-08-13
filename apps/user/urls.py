@@ -3,7 +3,8 @@ from django.conf.urls import url
 # from apps.user import views
 # from django.contrib.auth.decorators import login_required
 
-from apps.user.views import RegisterView, ActiveView, LoginView, UserInfoView, UserOrderView, AddressView, LogoutView
+from apps.user.views import (RegisterView, ActiveView, LoginView, UserInfoView, UserOrderView,
+                             AddressView, LogoutView, TestView)
 
 urlpatterns = [
     url(r"^register/$", RegisterView.as_view(), name='register'),    # 将注册改为类视图的使用模式
@@ -24,6 +25,8 @@ urlpatterns = [
     url(r"^$", UserInfoView.as_view(), name='info'),  # info
     url(r"^order/$", UserOrderView.as_view(), name='order'),  # order
     url(r"^site/$", AddressView.as_view(), name='site'),  # site
+
+    url(r"^test/$", TestView.as_view(), name='test'),  # test
 
 
 ]

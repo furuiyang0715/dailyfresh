@@ -295,3 +295,8 @@ class AddressView(LoginRequiredMixin, View):
         # 返回应答：刷新一下地址页面 将设置的默认地址加上去
         # 冲定向是 get 请求
         return redirect(reverse("user:site"))
+
+
+class TestView(View):
+    def get(self, request):
+        return render(request, 'detail.html')
