@@ -3,7 +3,7 @@ from django.conf.urls import url
 # from apps.user import views
 # from django.contrib.auth.decorators import login_required
 
-from apps.user.views import RegisterView, ActiveView, LoginView, UserInfoView, UserOrderView, AddressView
+from apps.user.views import RegisterView, ActiveView, LoginView, UserInfoView, UserOrderView, AddressView, LogoutView
 
 urlpatterns = [
     url(r"^register/$", RegisterView.as_view(), name='register'),    # 将注册改为类视图的使用模式
@@ -14,6 +14,7 @@ urlpatterns = [
     url(r"^active/$", ActiveView.as_view(), name='active'),    # 用户激活 将 token 作为参数进行传递
 
     url(r"^login/$", LoginView.as_view(), name='login'),    # 用户登录
+    url(r"^logout/$", LogoutView.as_view(), name='logout'),    # 用户登出
 
     # login_required 要在视图函数上使用 as_view() 的返回值是函数 所以我们要在这里手动调用一次
     # url(r"^$", login_required(UserInfoView.as_view()), name='info'),    # info

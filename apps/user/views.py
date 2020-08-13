@@ -2,7 +2,7 @@ import re
 import traceback
 
 from django.conf import settings
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.http import HttpResponse
@@ -168,6 +168,15 @@ class LoginView(View):
             response.delete_cookie('username')
 
         return response
+
+
+class LogoutView(View):
+    """用户登录视图"""
+    def get(self, request):
+        # 清除用户的会话数据
+        logout(request)
+        # 退出后重定向到主页
+        return redirect(reverse("goods:index"))
 
 
 def my_send_mail(msg, user_email):
