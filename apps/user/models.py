@@ -13,6 +13,11 @@ class User(AbstractUser, BaseModel):
         verbose_name_plural = verbose_name   # 在后台时复数显示的名称
 
 
+class AddressManager(models.manager):
+    """自定义的一个模型管理器对象"""
+    pass
+
+
 class Address(BaseModel):
     """地址模型类"""
     # user = models.ForeignKey('User', verbose_name='所属账户')   # 用户和地址是一对多的关系 在多的一方用 foreiginkey 链接一的一方
@@ -22,6 +27,9 @@ class Address(BaseModel):
     zip_code = models.CharField(max_length=6, null=True, verbose_name='邮政编码')
     phone = models.CharField(max_length=11, verbose_name='联系电话')
     is_default = models.BooleanField(default=False, verbose_name='是否默认')  # 表明该地址是否是用户的默认地址
+
+    # 使用自定义的模型管理器对象
+    objects = AddressManager()
 
     class Meta:
         db_table = 'df_address'
