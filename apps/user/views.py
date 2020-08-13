@@ -203,6 +203,11 @@ class UserInfoView(LoginRequiredMixin, View):
 
         # 在这个页面中需要:(1) 获取用户的个人信息
         # (2) 获取用户的历史浏览记录
+        '''
+        在访问商品的详情页面时，需要去添加历史浏览记录；需要在商品详情对应的视图中去添加
+
+
+        '''
 
         default_addr = Address.objects.get_default_address(request.user)
         return render(request, 'user_center_info.html', {"page": 'user', 'addr': default_addr})
