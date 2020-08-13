@@ -61,8 +61,13 @@
 				<h3 class="common_title2">基本信息</h3>
 						<ul class="user_info_list">
 							<li><span>用户名：</span>{{ user.username }}</li>
-							<li><span>联系方式：</span>{{ user.email }}</li>
-							<li><span>联系地址：</span>北京市昌平区</li>			
+							{% if addr %}
+							<li><span>联系方式：</span>{{ addr.phone }}</li>
+							<li><span>联系地址：</span>{{ addr.addr }}</li>
+							{% else %}
+							<li><span>联系方式：</span>未设置</li>
+							<li><span>联系地址：</span>未设置</li>
+							{% endif %}
 						</ul>
 				</div>
 				

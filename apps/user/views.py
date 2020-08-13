@@ -204,11 +204,11 @@ class UserInfoView(LoginRequiredMixin, View):
         # 在这个页面中需要:(1) 获取用户的个人信息
         # (2) 获取用户的历史浏览记录
 
-        return render(request, 'user_center_info.html', {"page": 'user'})
+        default_addr = Address.objects.get_default_address(request.user)
+        return render(request, 'user_center_info.html', {"page": 'user', 'addr': default_addr})
 
 
 class UserOrderView(LoginRequiredMixin, View):
-# class UserOrderView(View):
     def get(self, request):
         # 获取用户的订单信息
         return render(request, 'user_center_order.html', {'page': 'order'})
