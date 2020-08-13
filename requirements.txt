@@ -1,0 +1,6 @@
+PyMySQL==0.10.0
+Django==3.0.8
+django_tinymce==2.6.0
+celery==3.1.26.post2
+itsdangerous==1.1.0
+django_celery==3.3.1
