@@ -13,7 +13,7 @@ class User(AbstractUser, BaseModel):
         verbose_name_plural = verbose_name   # 在后台时复数显示的名称
 
 
-class AddressManager(models.manager):
+class AddressManager(models.Manager):
     """自定义的一个模型管理器对象"""
     def get_default_address(self, user):
         """获取用户的默认地址"""
