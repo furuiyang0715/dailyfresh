@@ -236,7 +236,11 @@ class AddressView(LoginRequiredMixin, View):
 
         # 校验数据
         # 校验手机号的正则: ^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$
+        if not all([receiver, addr, phone]):
+            return render(request, "user_center_site.html", {"errmsg": "数据不完整"})
 
+        if not re.match("^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$", phone):
+            return render(request, 'user_center_site.html', {"errmsg": "手机号码格式不正确"})
 
         address = Address()
         address.user = request.user   # 地址所属用户是当前登录用户
