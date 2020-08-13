@@ -234,6 +234,10 @@ class AddressView(LoginRequiredMixin, View):
         phone = request.POST.get("phone")
         addr = request.POST.get("addr")
 
+        # 校验数据
+        # 校验手机号的正则: ^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$
+
+
         address = Address()
         address.user = request.user   # 地址所属用户是当前登录用户
         address.receiver = receiver
