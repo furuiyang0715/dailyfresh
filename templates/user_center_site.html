@@ -57,12 +57,22 @@
 		</div>
 		<div class="right_content clearfix">
 				<h3 class="common_title2">收货地址</h3>
+			 	{% if default_addr %}
 				<div class="site_con">
 					<dl>
 						<dt>当前地址：</dt>
 						<dd>{{ default_addr.addr }} （{{ default_addr.receiver }} 收） {{ default_addr.phone }}</dd>
-					</dl>					
+					</dl>
 				</div>
+				{% else %}
+				<div class="site_con">
+					<dl>
+						<dt>当前地址：</dt>
+						<dd>无默认收货地址</dd>
+					</dl>
+				</div>
+				{% endif %}
+
 				<h3 class="common_title2">编辑地址</h3>
 				<div class="site_con">
 					<form method="post" action="/user/site/">

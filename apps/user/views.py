@@ -219,17 +219,17 @@ class AddressView(LoginRequiredMixin, View):
         # 获取用户的默认地址
         try:
             default_addr = Address.objects.get(user=request.user, is_default=1)
-        except:
+        except Address.DoesNotExist:
             default_addr = None
 
         if not default_addr:
-            print("用户不存在")
             return render(request, 'user_center_site.html', {"page": "site"})
         else:
             return render(request, 'user_center_site.html', {"page": "site", "default_addr": default_addr})
 
     def post(self, request):
         '''
+        模型字段:
         user = models.ForeignKey('User', verbose_name='所属账户', on_delete=PROTECT)   # 在新版中需要加入 on_delete 参数
         receiver = models.CharField(max_length=20, verbose_name='收件人')
         addr = models.CharField(max_length=256, verbose_name='收件地址')
@@ -286,4 +286,5 @@ class AddressView(LoginRequiredMixin, View):
         )
 
         # 返回应答：刷新一下地址页面 将设置的默认地址加上去
+        # 冲定向是 get 请求
         return redirect(reverse("user:site"))
