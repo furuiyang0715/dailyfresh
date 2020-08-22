@@ -79,10 +79,15 @@
 		</ul>
 		<div class="slide fl">
 			<ul class="slide_pics">
-				<li><img src="{% static 'images/slide.jpg' %}" alt="幻灯片"></li>
-				<li><img src="{% static 'images/slide02.jpg' %}" alt="幻灯片"></li>
-				<li><img src="{% static 'images/slide03.jpg' %}" alt="幻灯片"></li>
-				<li><img src="{% static 'images/slide04.jpg' %}" alt="幻灯片"></li>
+<!--			遍历轮播商品图-->
+				{% for goods in goods_banners%}
+					<li><img src='/static/{{ goods.image }}' alt="幻灯片"></li>
+				{% endfor %}
+
+<!--				<li><img src="{% static 'images/slide.jpg' %}" alt="幻灯片"></li>-->
+<!--				<li><img src="{% static 'images/slide02.jpg' %}" alt="幻灯片"></li>-->
+<!--				<li><img src="{% static 'images/slide03.jpg' %}" alt="幻灯片"></li>-->
+<!--				<li><img src="{% static 'images/slide04.jpg' %}" alt="幻灯片"></li>-->
 			</ul>
 			<div class="prev"></div>
 			<div class="next"></div>

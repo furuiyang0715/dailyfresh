@@ -40,5 +40,8 @@ class IndexView(View):
         }
 
         print(context)
+        for one in goods_banners:
+            print(one.image)
+            # print(one.image)
 
         return render(request, "index.html", context)
