@@ -41,6 +41,4 @@ class IndexView(View):
 
         print(context)
 
-        return JsonResponse(data={"info": "hello"})
-
-        # return render(request, "index.html", context)
+        return render(request, "index.html", context)
