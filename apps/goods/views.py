@@ -1,13 +1,9 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.views import View
 
 
-# def index(request):
-#     return render(request, "index.html")
-
-
 class IndexView(View):
+    """首页"""
     def get(self, request):
+        """显示首页"""
         return render(request, "index.html")
