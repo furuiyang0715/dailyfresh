@@ -1,3 +1,6 @@
+import json
+
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
 
@@ -36,4 +39,8 @@ class IndexView(View):
             "cart_count": cart_count,
         }
 
-        return render(request, "index.html", context)
+        print(context)
+
+        return JsonResponse(data={"info": "hello"})
+
+        # return render(request, "index.html", context)
