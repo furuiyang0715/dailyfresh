@@ -40,7 +40,7 @@ class IndexView(View):
         }
 
         print(context)
-        for one in goods_banners:
+        for one in goods_promotion:
             print(one.image)
             # print(one.image)
 
