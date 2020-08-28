@@ -101,28 +101,31 @@
 				<a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
 			</div>
 			<div class="goods_con clearfix">
-				<div class="goods_banner fl"><img src="{% static 'images/banner01.jpg' %}"></div>
+				<div class="goods_banner fl"><img src="/static/{{ type.image }}"></div>
 				<ul class="goods_list fl">
-					<li>
-						<h4><a href="#">草莓</a></h4>
-						<a href="#"><img src="{% static 'images/goods/goods003.jpg' %}"></a>
-						<div class="prize">¥ 30.00</div>
-					</li>
-					<li>
-						<h4><a href="#">葡萄</a></h4>
-						<a href="#"><img src="{% static 'images/goods/goods002.jpg' %}"></a>
-						<div class="prize">¥ 5.50</div>
-					</li>
-					<li>
-						<h4><a href="#">柠檬</a></h4>
-						<a href="#"><img src="{% static 'images/goods/goods001.jpg' %}"></a>
-						<div class="prize">¥ 3.90</div>
-					</li>
-					<li>
-						<h4><a href="#">奇异果</a></h4>
-						<a href="#"><img src="{% static 'images/goods/goods012.jpg' %}"></a>
-						<div class="prize">¥ 25.80</div>
-					</li>
+					{% for type_goods in type.image_goods_lst %}
+						<li>
+							<h4><a href="#">{{ type_goods.sku.name }}</a></h4>
+							<a href="#"><img src="/static/{{ type_goods.sku.image }}"></a>
+							<div class="prize">¥ 30.00</div>
+						</li>
+					{% endfor %}
+
+<!--						<li>-->
+<!--							<h4><a href="#">葡萄</a></h4>-->
+<!--							<a href="#"><img src="{% static 'images/goods/goods002.jpg' %}"></a>-->
+<!--							<div class="prize">¥ 5.50</div>-->
+<!--						</li>-->
+<!--						<li>-->
+<!--							<h4><a href="#">柠檬</a></h4>-->
+<!--							<a href="#"><img src="{% static 'images/goods/goods001.jpg' %}"></a>-->
+<!--							<div class="prize">¥ 3.90</div>-->
+<!--						</li>-->
+<!--						<li>-->
+<!--							<h4><a href="#">奇异果</a></h4>-->
+<!--							<a href="#"><img src="{% static 'images/goods/goods012.jpg' %}"></a>-->
+<!--							<div class="prize">¥ 25.80</div>-->
+<!--						</li>-->
 				</ul>
 			</div>
 		</div>

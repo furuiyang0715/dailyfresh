@@ -27,6 +27,14 @@ class IndexView(View):
         # (4) 获取首页分类商品展示信息
         goods_type = IndexTypeGoodsBanner.objects.all()
 
+        for type in types:
+            # 每个类型的图片展示行
+            image_goods_lst = IndexTypeGoodsBanner.objects.filter(type=type, display_type=1)
+            # 每个类型的文字展示行
+            text_goods_lst = IndexTypeGoodsBanner.objects.filter(type=type, display_type=2)
+            type.image_goods_lst = image_goods_lst
+            type.text_goodls_list = text_goods_lst
+
         # (5) 获取用户购物车中商品的数目
         cart_count = 0
 
