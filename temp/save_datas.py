@@ -16,27 +16,25 @@ class SaveDatas(SpiderBase):
             (5, '2017-11-14 05:06:32.561861', '2017-11-14 05:06:32.561895', 0, '新鲜蔬菜', 'vegetables', 'images/banner05.jpg'),
             (6, '2017-11-14 05:06:55.562634', '2017-11-14 05:06:55.562673', 0, '速冻食品', 'ice', 'images/banner06.jpg'),
         ]
-        items = []
         for data in datas:
             item = dict(zip(fields, data))
-            items.append(item)
             self._save(self.test_client, item, 'df_goods_type', fields)
 
     def make_sku_goods_datas(self):
         self._test_init()
-
-        fields = ['id', 'create_time', 'update_time', 'is_delete', 'name', 'desc', 'price', 'unite', 'image', 'stock',
+        fields = ['id', 'create_time', 'update_time', 'is_delete',
+                  'name', 'desc', 'price', 'unite', 'image', 'stock',
                   'sales', 'status', 'goods_id', 'type_id']
         datas = [
             (1, '2017-11-15 03:10:14.045538', '2017-11-14 08:24:49.138489', 0, '草莓 500g', '草莓简介', 10.00, '500g', 'images/goods/caomei.jpg', 98, 0, 1, 1, 1),
-            (2, '2017-11-15 03:11:04.490384', '2017-11-14 08:44:43.484243', 0, '盒装草莓', '草莓简介', 20.00, '盒','images/goods/hecaomei.jpg',10, 0, 1, 1, 1),
-            (3, '2017-11-15 03:12:32.165020', '2017-11-14 08:25:22.505620', 0, '葡萄', '葡萄简介', 20.00, '500g','images/goods/putao.jpg', 7, 0, 1, 2, 1),
-            (4, '2017-11-15 03:13:16.457844', '2017-11-14 08:25:34.181904', 0, '柠檬', '简介', 32.00, '500g','images/goods/ningmeng.jpg', 12, 0, 1, 3, 1),
+            (2, '2017-11-15 03:11:04.490384', '2017-11-14 08:44:43.484243', 0, '盒装草莓', '草莓简介', 20.00, '盒', 'images/goods/hecaomei.jpg',10, 0, 1, 1, 1),
+            (3, '2017-11-15 03:12:32.165020', '2017-11-14 08:25:22.505620', 0, '葡萄', '葡萄简介', 20.00, '500g', 'images/goods/putao.jpg', 7, 0, 1, 2, 1),
+            (4, '2017-11-15 03:13:16.457844', '2017-11-14 08:25:34.181904', 0, '柠檬', '简介', 32.00, '500g', 'images/goods/ningmeng.jpg', 12, 0, 1, 3, 1),
             (5, '2017-11-15 03:14:05.799352', '2017-11-14 08:25:56.427676', 0, '奇异果', '简介', 12.12, '500g', 'images/goods/qiyiguo.jpg', 12, 0, 1, 4, 1),
             (26, '2017-11-14 08:53:00.188619', '2017-11-14 08:53:00.188652', 0, '越南芒果', '新鲜越南芒果', 29.90, '2.5kg', 'images/goods/mangguo.jpg', 100, 0, 1, 25, 1),
             (6, '2017-11-15 03:15:09.971968', '2017-11-14 08:26:09.113586', 0, '大青虾', '简介', 34.00, '500g', 'images/goods/qingxia.jpg', 12, 0, 1, 5, 2),
             (7, '2017-11-15 03:15:53.812181', '2017-11-14 08:26:19.094675', 0, '北海道秋刀鱼', '简介', 50.00, '500g', 'images/goods/qiudaoyu.jpg', 15, 0, 1, 6, 2),
-            (8, '2017-11-15 03:16:24.763232', '2017-11-14 08:26:31.121824', 0, '扇贝','简介',56.60,'500g','images/goods/shanbei.jpg',13,0,1,7,2),
+            (8, '2017-11-15 03:16:24.763232', '2017-11-14 08:26:31.121824', 0, '扇贝', '简介', 56.60, '500g', 'images/goods/shanbei.jpg',13,0,1,7,2),
             (9, '2017-11-15 03:17:13.426611', '2017-11-14 08:26:58.739624', 0, '基围虾','简介',100.90,'500g','images/goods/jiweixia.jpg',14,0,1,8,2),
             (10, '2017-11-15 03:17:47.656066', '2017-11-14 08:29:56.158261', 0, '猪肉','简介',23.99,'500g','images/goods/pig.jpg',100,0,1,9,3),
             (11, '2017-11-15 03:18:15.497630', '2017-11-14 08:31:27.169999', 0, '牛肉','简介',34.99,'500g','images/goods/beef.jpg',100,0,1,10,3),
@@ -59,12 +57,14 @@ class SaveDatas(SpiderBase):
             (25, '2017-11-15 03:25:56.170531', '2017-11-14 08:43:18.768380', 0, '速冻水饺','简介',20.00,'袋','images/goods/shuijiao.jpg',100,0,1,24,6),
         ]
 
-        items = []
         for data in datas:
             item = dict(zip(fields, data))
-            items.append(item)
             self._save(self.test_client, item, 'df_goods_sku', fields)
+
+    def start(self):
+        # SaveDatas().make_type_datas()
+        SaveDatas().make_sku_goods_datas()
 
 
 if __name__ == '__main__':
-    SaveDatas().make_type_datas()
+    SaveDatas().start()
