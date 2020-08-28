@@ -4,7 +4,8 @@ import traceback
 from temp.configs import (SPIDER_MYSQL_HOST, SPIDER_MYSQL_PORT, SPIDER_MYSQL_USER, SPIDER_MYSQL_PASSWORD,
                           SPIDER_MYSQL_DB, PRODUCT_MYSQL_HOST, PRODUCT_MYSQL_PORT, PRODUCT_MYSQL_USER,
                           PRODUCT_MYSQL_PASSWORD, PRODUCT_MYSQL_DB, JUY_HOST, JUY_PORT, JUY_USER, JUY_PASSWD,
-                          JUY_DB, DC_HOST, DC_PORT, DC_USER, DC_PASSWD, DC_DB)
+                          JUY_DB, DC_HOST, DC_PORT, DC_USER, DC_PASSWD, DC_DB, TEST_MYSQL_HOST, TEST_MYSQL_PORT,
+                          TEST_MYSQL_USER, TEST_MYSQL_PASSWD, TEST_MYSQL_DB)
 from temp.sql_pool import PyMysqlPoolBase
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -44,11 +45,20 @@ class SpiderBase(object):
         "db": DC_DB,
     }
 
+    test_cfg = {
+        'host': TEST_MYSQL_HOST,
+        "port": TEST_MYSQL_PORT,
+        "user": TEST_MYSQL_USER,
+        "password": TEST_MYSQL_PASSWD,
+        "db": TEST_MYSQL_DB,
+    }
+
     def __init__(self):
         self.dc_client = None
         self.product_client = None
         self.juyuan_client = None
         self.spider_client = None
+        self.test_client = None
 
         self.proxy_pool = []
         self.cur_proxy = None
@@ -75,9 +85,13 @@ class SpiderBase(object):
         if not self.spider_client:
             self.spider_client = self._init_pool(self.spider_cfg)
 
+    def _test_init(self):
+        if not self.test_client:
+            self.test_client = self._init_pool(self.test_cfg)
+
     def __del__(self):
         """结束时销毁已经存在的数据库连接"""
-        for _client in (self.dc_client, self.product_client, self.juyuan_client, self.spider_client):
+        for _client in (self.dc_client, self.product_client, self.juyuan_client, self.spider_client, self.test_client):
             if _client is not None:
                 _client.dispose()
 
@@ -151,6 +165,8 @@ class SpiderBase(object):
         """单个插入"""
         try:
             insert_sql, values = self.contract_sql(to_insert, table, update_fields)
+            print(insert_sql)
+            print(values)
             value = values[0]
             count = sql_pool.insert(insert_sql, value)
         except:
