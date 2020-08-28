@@ -1,0 +1,6 @@
+
+
+class SaveDatas(object):
+
+
+    pass
