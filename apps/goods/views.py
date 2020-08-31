@@ -3,6 +3,7 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
+from django_redis import get_redis_connection
 
 from goods.models import GoodsType, IndexGoodsBanner, IndexPromotionBanner, IndexTypeGoodsBanner
 
@@ -54,7 +55,17 @@ class IndexView(View):
         使用 hlen 获取购物车中商品的条目数。 
         
         '''
+        user = request.user
         cart_count = 0
+        '''
+        在 redis 中增加测试数据: 
+        hmset cart_39 1 3 2 5 3 2
+        '''
+        if user.is_authenticated:
+            # print("用户已登录")
+            conn = get_redis_connection('default')
+            cart_key = "cart_{}".format(user.id)
+            cart_count = conn.hlen(cart_key)
 
         # 组织模板上下文
         context = {
@@ -65,9 +76,6 @@ class IndexView(View):
             "cart_count": cart_count,
         }
 
-        print(context)
-        for one in goods_promotion:
-            print(one.image)
-            # print(one.image)
-
+        import pprint
+        print(pprint.pformat(context))
         return render(request, "index.html", context)
