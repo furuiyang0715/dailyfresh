@@ -60,3 +60,11 @@ def generate_static_index_html():
     save_path = os.path.join(settings.BASE_DIR, 'static/index.html')
     with open(save_path, 'w') as f:
         f.write(static_index_html)
+
+
+'''在终端测试 运行任务 生成首页
+>>> from user.tasks import generate_static_index_html 
+>>> generate_static_index_html.delay() 
+<AsyncResult: 7efe522c-21fc-4b3d-ac0d-60e943ca1287>
+
+'''

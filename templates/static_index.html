@@ -46,10 +46,11 @@
 			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
 			<input type="button" class="input_btn fr" name="" value="搜索">
 		</div>
-		<div class="guest_cart fr">
-			<a href="#" class="cart_name fl">我的购物车</a>
-			<div class="goods_count fl" id="show_count">{{ cart_count }}</div>
-		</div>
+<!--       在未登录的首页需要隐藏购物车-->
+<!--		<div class="guest_cart fr">-->
+<!--			<a href="#" class="cart_name fl">我的购物车</a>-->
+<!--			<div class="goods_count fl" id="show_count">{{ cart_count }}</div>-->
+<!--		</div>-->
 	</div>
 
 	<div class="navbar_con">
@@ -73,7 +74,6 @@
 		</ul>
 		<div class="slide fl">
 			<ul class="slide_pics">
-<!--			遍历轮播商品图-->
 				{% for goods in goods_banners%}
 					<li><img src='/static/{{ goods.image }}' alt="幻灯片"></li>
 				{% endfor %}
