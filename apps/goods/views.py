@@ -75,7 +75,19 @@ class IndexView(View):
             "goods_type": goods_type,
             "cart_count": cart_count,
         }
-
-        import pprint
-        print(pprint.pformat(context))
         return render(request, "index.html", context)
+
+'''
+首页要做一个页面静态化: 
+如果一个页面经常被访问,但是页面变化得不频繁,或者可以捕捉何时发生改变，那么可以使用页面静态化的技术。 
+
+传统的 django 页面渲染: 
+数据库查询数据 --> 数据+模板渲染 --> 返回前端 
+
+使用页面静态化技术: 
+在数据发生变化时异步去更新生成新的静态页面 
+
+用户访问时通过 nginx 直接访问生成好的静态文件
+
+
+'''
