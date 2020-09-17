@@ -4,3 +4,6 @@ django_tinymce==2.6.0
 celery==3.1.26.post2
 itsdangerous==1.1.0
 django_celery==3.3.1
+django-redis==4.12.1
+redis==3.5.3
+Pillow==7.2.0

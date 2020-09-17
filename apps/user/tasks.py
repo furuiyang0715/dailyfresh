@@ -5,8 +5,6 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template import loader
 from django_redis import get_redis_connection
-from flask import request
-
 from goods.models import GoodsType, IndexGoodsBanner, IndexPromotionBanner, IndexTypeGoodsBanner
 
 
